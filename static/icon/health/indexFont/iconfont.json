@@ -1,0 +1,170 @@
+{
+  "id": "",
+  "name": "",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "6893838",
+      "name": "胆识中心",
+      "font_class": "danshizhongxin",
+      "unicode": "e656",
+      "unicode_decimal": 58966
+    },
+    {
+      "icon_id": "6894388",
+      "name": "腔内血管医联体",
+      "font_class": "qiangneixieguanyilianti",
+      "unicode": "e662",
+      "unicode_decimal": 58978
+    },
+    {
+      "icon_id": "6895233",
+      "name": "急诊专科医联体",
+      "font_class": "jizhenzhuankeyilianti",
+      "unicode": "e669",
+      "unicode_decimal": 58985
+    },
+    {
+      "icon_id": "6918287",
+      "name": "产科",
+      "font_class": "chanke",
+      "unicode": "e6b3",
+      "unicode_decimal": 59059
+    },
+    {
+      "icon_id": "6918288",
+      "name": "传染科",
+      "font_class": "chuanranke",
+      "unicode": "e6b4",
+      "unicode_decimal": 59060
+    },
+    {
+      "icon_id": "6918289",
+      "name": "妇科",
+      "font_class": "fuke",
+      "unicode": "e6b5",
+      "unicode_decimal": 59061
+    },
+    {
+      "icon_id": "6918290",
+      "name": "检验科",
+      "font_class": "jianyanke",
+      "unicode": "e6b6",
+      "unicode_decimal": 59062
+    },
+    {
+      "icon_id": "6918291",
+      "name": "急诊科",
+      "font_class": "jizhenke",
+      "unicode": "e6b7",
+      "unicode_decimal": 59063
+    },
+    {
+      "icon_id": "6918292",
+      "name": "美容减肥科",
+      "font_class": "meirongjianfeike",
+      "unicode": "e6b8",
+      "unicode_decimal": 59064
+    },
+    {
+      "icon_id": "6918293",
+      "name": "麻醉科",
+      "font_class": "mazuike",
+      "unicode": "e6b9",
+      "unicode_decimal": 59065
+    },
+    {
+      "icon_id": "6918294",
+      "name": "男科",
+      "font_class": "nanke",
+      "unicode": "e6ba",
+      "unicode_decimal": 59066
+    },
+    {
+      "icon_id": "6918295",
+      "name": "精神科",
+      "font_class": "jingshenke",
+      "unicode": "e6bb",
+      "unicode_decimal": 59067
+    },
+    {
+      "icon_id": "6918296",
+      "name": "内科",
+      "font_class": "neike",
+      "unicode": "e6bc",
+      "unicode_decimal": 59068
+    },
+    {
+      "icon_id": "6918297",
+      "name": "皮肤科",
+      "font_class": "pifuke",
+      "unicode": "e6bd",
+      "unicode_decimal": 59069
+    },
+    {
+      "icon_id": "6918298",
+      "name": "药剂科",
+      "font_class": "yaojike",
+      "unicode": "e6be",
+      "unicode_decimal": 59070
+    },
+    {
+      "icon_id": "6918299",
+      "name": "预防保健科",
+      "font_class": "yufangbaojianke",
+      "unicode": "e6bf",
+      "unicode_decimal": 59071
+    },
+    {
+      "icon_id": "6918300",
+      "name": "影像科",
+      "font_class": "yingxiangke",
+      "unicode": "e6c0",
+      "unicode_decimal": 59072
+    },
+    {
+      "icon_id": "6918301",
+      "name": "中医科",
+      "font_class": "zhongyike",
+      "unicode": "e6c1",
+      "unicode_decimal": 59073
+    },
+    {
+      "icon_id": "6918302",
+      "name": "外科",
+      "font_class": "waike",
+      "unicode": "e6c2",
+      "unicode_decimal": 59074
+    },
+    {
+      "icon_id": "6918846",
+      "name": "全科",
+      "font_class": "quanke",
+      "unicode": "e6c3",
+      "unicode_decimal": 59075
+    },
+    {
+      "icon_id": "6918847",
+      "name": "儿科",
+      "font_class": "erke",
+      "unicode": "e6c4",
+      "unicode_decimal": 59076
+    },
+    {
+      "icon_id": "6918848",
+      "name": "肿瘤科",
+      "font_class": "zhongliuke",
+      "unicode": "e6c5",
+      "unicode_decimal": 59077
+    },
+    {
+      "icon_id": "6918850",
+      "name": "心理咨询",
+      "font_class": "xinlizixun",
+      "unicode": "e6c6",
+      "unicode_decimal": 59078
+    }
+  ]
+}

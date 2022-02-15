@@ -1,0 +1,65 @@
+{
+  "id": "2007271",
+  "name": "健康",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "7122471",
+      "name": "体重",
+      "font_class": "tizhong",
+      "unicode": "e774",
+      "unicode_decimal": 59252
+    },
+    {
+      "icon_id": "13374050",
+      "name": "心率",
+      "font_class": "ziyuan",
+      "unicode": "e652",
+      "unicode_decimal": 58962
+    },
+    {
+      "icon_id": "13374055",
+      "name": "血氧",
+      "font_class": "ziyuan1",
+      "unicode": "e653",
+      "unicode_decimal": 58963
+    },
+    {
+      "icon_id": "13374056",
+      "name": "血压",
+      "font_class": "ziyuan2",
+      "unicode": "e654",
+      "unicode_decimal": 58964
+    },
+    {
+      "icon_id": "13374087",
+      "name": "血糖",
+      "font_class": "ziyuan3",
+      "unicode": "e656",
+      "unicode_decimal": 58966
+    },
+    {
+      "icon_id": "14975824",
+      "name": "运动",
+      "font_class": "yundong",
+      "unicode": "e62e",
+      "unicode_decimal": 58926
+    },
+    {
+      "icon_id": "15684455",
+      "name": "饮食",
+      "font_class": "yinshi",
+      "unicode": "e63f",
+      "unicode_decimal": 58943
+    },
+    {
+      "icon_id": "16195474",
+      "name": "睡眠",
+      "font_class": "shuimian",
+      "unicode": "e8ae",
+      "unicode_decimal": 59566
+    }
+  ]
+}
