@@ -23,7 +23,6 @@
 			<sPullScroll ref="pullScroll" :heightStyle="listHeight?listHeight:heightStyle" :pullDown="pullDown"
 				:pullUp="loadData" :enablePullDown="enablePullDown" :enablePullUp="enablePullUp" :top="top"
 				:fixed="fixed" :bottom="bottom" finishText="我是有底线的...">
-
 				<view v-if="listType === 'proc'">
 					<list-item :detailList="detailList" v-for="(item, index) in tabList[TabCur]['data']" :key="index"
 						:itemData="item" :viewTemp="v2ViewTemp" :viewType="viewType" :imageNum="imageNum"
@@ -32,6 +31,7 @@
 						@click-foot-btn="clickFootBtn"></list-item>
 				</view>
 				<view :class="{ 'grid-layout': onlyShowTitle }" v-else>
+          
 					<list-item :detailList="detailList" v-for="item in listDataRun" :key="item[rowKey]" :itemData="item"
 						:viewTemp="v2ViewTemp" :viewType="viewType" :imageNum="imageNum" :gridRowNum="gridRowNum"
 						:rowButton="rowButtonsRun ? rowButtonsRun : rowButton" :srv_cols="colRun" :listType="listType"

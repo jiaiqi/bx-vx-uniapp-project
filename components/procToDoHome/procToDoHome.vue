@@ -152,10 +152,14 @@
         console.log("getAppIcon", self.menuIconFiles)
       },
       tolist(e, app = 'corp') {
+        debugger
         uni.setStorageSync("activeApp", app)
         let url = `/pages/public/list/list?destApp=${app}&serviceName=${e.service_name}&pageType=list`
         if (e?.app_dest_page === 'listproc') {
           url = "/pages/public/proc/procList/procList?destApp=" + app + "&serviceName=" + e.service_name
+        }
+        if(e.app_dest_page){
+          url = e.app_dest_page
         }
         uni.navigateTo({
           url
