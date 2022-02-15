@@ -68,8 +68,8 @@
         "title" : "vRMS+",
         "domain" : "zhxq.100xsys.cn",
         "router" : {
-            "mode" : "history",
-            "base" : "/wx/"
+            "mode" : "hash",
+            "base" : "./"
         },
         "devServer" : {
             "disableHostCheck" : true
