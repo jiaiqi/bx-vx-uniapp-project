@@ -1,6 +1,34 @@
 // 把所有api的url统一在一起并挂在到vue对象上
 // 所有接口都在一个文件里会比较大
 
+let env = 'prod'
+
+env = 'test'
+
+
+let conf = {
+  'test': {
+    //测试环境
+    serviceAddress: "https://wx.100xsys.cn",
+    appNo: "APPNO20210926101030",
+    appid: "wx08876efb5760ca75",
+    ws: "wss://wx.100xsys.cn:8081",
+    file: "https://wx.100xsys.cn",
+    frontPath: "http://test1.100xsys.cn/wx",
+  },
+  "prod": {
+    // 生产环境
+    serviceAddress: "https://srvms.100xsys.cn",
+    appNo: "APPNO20201124160702",
+    appId: "wxa3c50c8177ef6739",
+    ws: "wss://srvms.100xsys.cn:8081",
+    file: "https://file.100xsys.cn",
+    // serviceAddress: "http://192.168.0.241:8080", // 内网
+    frontPath: "http://test1.100xsys.cn/wx",
+  }
+}
+
+
 // 上线更换： serviceAddress frontEndAddress wxh5 homePath
 let remoteAddress = {
 	ssourl: 'http://www.100xsys.cn', // 微信登陆sso 端口
@@ -8,12 +36,16 @@ let remoteAddress = {
 	// serviceAddress: 'https://192.168.0.155:8106', // http://login.100xsys.cn 接口地址
 	// serviceAddress: 'https://srvms.100xsys.cn', // http://login.100xsys.cn 接口地址
 	// serviceAddress: 'http://zhxq.100xsys.cn', // http://api.vanxum.com:9080/
-	serviceAddress: 'http://192.168.0.244:8101', // http://login.100xsys.cn 接口地址 srvms.100xsys.cn  http://api.vanxum.com:9080/
+	// serviceAddress: 'http://192.168.0.244:8101', // http://login.100xsys.cn 接口地址 srvms.100xsys.cn  http://api.vanxum.com:9080/
 	// serviceAddress: 'http://api.vanxum.com:9080/', // 
 	// serviceAddress: 'http://192.168.0.121:8101', // 
-	frontEndAddress: 'http://test1.100xsys.cn/wx/',
-	singleApp:false, // 是否单应用， true 时 所有请求均使用 appName 配置
-	appName:"daq", //singleApp 为 true 时 必须配置
+  fileSrv: conf[env]['file'],
+  serviceAddress: conf[env]['serviceAddress'],
+  wsAddr: conf[env]['ws'],
+  frontEndAddress: conf[env]['frontPath'],
+	// frontEndAddress: 'http://test1.100xsys.cn/wx/',
+	singleApp:true, // 是否单应用， true 时 所有请求均使用 appName 配置
+	appName:"corp", //singleApp 为 true 时 必须配置
 	bx_auth_ticket: "e2cc16a3-6a87-42da-ae5f-99a6af84c5f8",
 	onTicket: false, // 是否使用配置的静态 bx_auth_ticket
 	// homePath:"/pages/public/home/home", // 首页路径，配置完整路径
