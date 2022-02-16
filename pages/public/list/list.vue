@@ -198,9 +198,9 @@
       if (query.showRowButton) {
         this.showRowButton = query.showRowButton;
       }
-      if (query.serviceName && query.pageType) {
+      if (query.serviceName) {
         this.serviceName = query.serviceName;
-        this.pageType = query.pageType;
+        this.pageType = query?.pageType || 'list';
         if (query.params) {
           let params = {};
           if (typeof query.params === 'string') {
@@ -356,9 +356,8 @@
         console.log('click-list-item:', e);
       },
       async clickFootBtn(data) {
-        debugger
-        let buttonInfo = data.button;
-        let rowData = data.row;
+        let buttonInfo = this.deepClone(data.button);
+        let rowData = this.deepClone(data.row);
         if (buttonInfo.operate_params && typeof buttonInfo.operate_params === 'string') {
           try {
             buttonInfo.operate_params = JSON.parse(buttonInfo.operate_params);
@@ -449,8 +448,8 @@
               uni.navigateTo({
                 url: '/pages/public/formPage/formPage?params=' + JSON.stringify(params)
               });
-            } else if (data.button && data.button.button_type === 'customize') {
-              let moreConfig = data.button.more_config;
+            } else if (buttonInfo && buttonInfo.button_type === 'customize') {
+              let moreConfig = buttonInfo.more_config;
               if (typeof moreConfig === 'string') {
                 try {
                   moreConfig = JSON.parse(moreConfig);
@@ -459,7 +458,19 @@
                   console.log(e);
                 }
               }
-              if (data.button.servcie_type === 'add') {
+              if (buttonInfo?.operate_type === "URL跳转") {
+                if(moreConfig?.navUrl){
+                  let obj = {
+                    data:rowData
+                  }
+                  let url = this.renderStr(moreConfig?.navUrl,obj)
+                  uni.navigateTo({
+                    url
+                  })
+                }
+                return
+              }
+              if (buttonInfo.servcie_type === 'add') {
                 let params = {
                   type: 'add',
                   serviceName: res.button.service_name,
@@ -583,7 +594,7 @@
                 eventOrigin: res.button
               };
               if ((data.button.main_table = 'bxzhxq_member' && data.button.operate_service ===
-                'srvzhxq_syrk_add')) {
+                  'srvzhxq_syrk_add')) {
                 params.cond = [{
                   colName: 'fwbm',
                   ruleType: 'condition',
