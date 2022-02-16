@@ -81,6 +81,10 @@
         if (Array.isArray(this.appMenu)) {
           let topMenus = this.appMenu.filter(item => item.parent_no == null)
           topMenus = topMenus.map(menu => {
+            if(menu.is_leaf==='是'){
+              menu.menus = [menu]
+              return menu
+            }
             if (!this.onlyShowTip) {
               menu.menus = this.appMenu.filter(item => item.is_leaf === '是' && item.path.indexOf(
                 `/${menu.menu_no}`) === 0)
