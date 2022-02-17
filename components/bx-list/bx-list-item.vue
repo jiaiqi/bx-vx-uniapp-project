@@ -374,7 +374,6 @@
 				}
 			},
 			deRowButDisplay: function(item, button) {
-        debugger
         if(button.disp_exps){
           let isShow = false
           try {

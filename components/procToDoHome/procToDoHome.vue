@@ -5,8 +5,8 @@
         {{title}}
       </view>
       <view class="action">
-        <view class="text-black user-info margin-right" v-if="userInfo && (userInfo.person_name||userInfo.user_code)">
-          {{userInfo && userInfo.person_name || '-'}}/{{userInfo && userInfo.user_code|| '-'}}
+        <view class="text-black user-info margin-right" v-if="userInfo &&userInfo.real_name">
+          {{userInfo && userInfo.real_name || '-'}}/{{userInfo && userInfo._dept_info&&userInfo._dept_info.dept_name|| '-'}}
         </view>
         <button class="cu-btn cuIcon" @click="toUserPage">
           <text class="text-blue text-lg cuIcon-myfill"></text>
@@ -16,14 +16,14 @@
     <view class="menus-box">
       <uni-collapse>
         <uni-collapse-item :showArrow="true" :title="app.menu_name" :open="app.showCollapse" :name="app.menu_no"
-          v-for="(app,index) in topMenus" :key="index" >
-          <template v-slot:title  v-if="app.menus.length>0">
+          v-for="(app,index) in topMenus" :key="index">
+          <template v-slot:title v-if="app.menus.length>0">
             <view class="cu-bar bg-white ">
               <view class="action text-black text-blod">
                 <text class="cuIcon-title text-orange "></text>
                 {{app.menu_name}}
               </view>
-             <!-- <view class="">
+              <!-- <view class="">
                 <text class="cuIcon-right"></text>
               </view> -->
             </view>
@@ -173,6 +173,8 @@
       },
       getUserInfo() {
         let login_user_info = uni.getStorageSync('login_user_info')
+        this.userInfo = login_user_info
+        return
         if (login_user_info?.user_no) {
           let app = uni.getStorageSync('activeApp') || 'vxhr'
           let url = this.$api.serverURL + `/${app}/select/srvvx_personal_basic_info_select`
@@ -219,7 +221,7 @@
           this.appMenu = res.data.data
           if (Array.isArray(this.appMenu)) {
             let topMenus = this.appMenu.filter(item => item.parent_no == null).map((item, index) => {
-              if (index < 3) {
+              if (index < 4) {
                 item.showCollapse = true
               } else {
                 item.showCollapse = false
