@@ -6,7 +6,9 @@
       </view>
       <view class="action">
         <view class="text-black user-info margin-right" v-if="userInfo &&userInfo.real_name">
-          {{userInfo && userInfo.real_name || '-'}}/{{userInfo && userInfo._dept_info&&userInfo._dept_info.dept_name|| '-'}}
+          <text v-if="userInfo.real_name">{{userInfo.real_name ||'-'}}/</text>
+          <text
+            v-if="userInfo._dept_info&&userInfo._dept_info.dept_name">{{userInfo._dept_info.dept_name ||'-'}}</text>
         </view>
         <button class="cu-btn cuIcon" @click="toUserPage">
           <text class="text-blue text-lg cuIcon-myfill"></text>

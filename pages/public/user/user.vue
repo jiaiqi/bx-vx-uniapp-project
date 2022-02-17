@@ -18,11 +18,11 @@
               <view class="text-black text-content text-df">
                 入职时间：{{userInfo && userInfo.entry_date ? userInfo.entry_date : '-'}}
               </view>
-              <view class="text-black text-content text-df">
-                职位名称：{{userInfo && userInfo._job_disp ? userInfo._job_disp : '-'}}
+              <view class="text-black text-content text-df" v-if="userInfo && userInfo._job_disp ">
+                职位名称：{{ userInfo._job_disp|| '-'}}
               </view>
               <view class="text-black text-content text-df">
-                所属部门：{{userInfo && userInfo._dept_no_disp? userInfo._dept_no_disp : '-'}}
+                所属部门：{{userInfo && userInfo._first_dept_no_disp|| '-'}}
               </view>
             </view>
           </view>
@@ -31,9 +31,9 @@
           <view class="">
             <view class="cu-timeline">
               <!-- <view class="cu-time">昨天</view> -->
-              <view class="cu-item cur cuIcon-noticefill">
+              <view class="cu-item cur cuIcon-noticefill" v-if="userInfo && userInfo.positive_confirm_date ">
                 <view class="content bg-green shadow-blur">
-                  <text>{{userInfo && userInfo.positive_confirm_date ? userInfo.positive_confirm_date : '-'}}</text>
+                  <text>{{ userInfo.positive_confirm_date ||: '-'}}</text>
                   【我转正了】
                 </view>
               </view>
