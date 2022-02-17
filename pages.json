@@ -1,114 +1,114 @@
 {
-	"pages": [{
-			"path": "pages/public/accountExec/accountExec",
-			"style": {
-				"navigationBarTitleText": "微信登录",
-				"navigationBarBackgroundColor": "#0055ff"
-			}
-		},
-		{
-			"path": "pages/public/home/home",
-			"style": {
-				"navigationBarTitleText": "菜单",
-				"navigationBarBackgroundColor": "#0055ff"
-			}
-		},
-		
-		{
-			"path": "pages/public/login/forget",
-			"style": {
-				"navigationBarTitleText": "忘记密码",
-				"navigationBarBackgroundColor": "#0bc99d"
-			}
-		},
-		{
-			"path": "pages/public/login/register",
-			"style": {
-				"navigationBarTitleText": "注册",
-				"navigationBarBackgroundColor": "#0bc99d"
-			}
-		}, {
-			"path": "pages/public/list/list",
-			"style": {}
-		}, {
-			"path": "pages/public/formPage/formPage",
-			"style": {}
-		}, {
-			"path": "pages/public/add/add",
-			"style": {}
-		},
-		{
-			"path": "pages/specific/added/added",
-			"style": {}
-		}, {
-			"path": "pages/public/index/index",
-			"style": {
-				"navigationBarTitleText": "百想科技",
-				"navigationBarBackgroundColor": "#0bc99d"
-			}
-		},
-		 {
-			"path": "pages/public/proc/procList/procList",
-			"style": {}
-		}, {
-			"path": "pages/public/proc/procDetail/procDetail",
-			"style": {}
-		}, {
-			"path": "pages/public/proc/apply/apply",
-			"style": {}
-		}, {
-			"path": "pages/public/proc/procStepDetail/procStepDetail",
-			"style": {}
-		}, {
-			"path": "pages/public/proc/recordDetail/recordDetail",
-			"style": {}
-		}, {
-			"path": "pages/public/homePage/homePage",
-			"style": {}
-		},
-		{
-			"path": "pages/public/demo/demo",
-			"style": {}
-		}, {
-			"path": "pages/specific/testPage/testPage",
-			"style": {
-				"navigationBarTitleText": "",
-				"enablePullDownRefresh": false
-			}
-		}, {
-			"path": "pages/public/user/user",
-			"style": {
-				"navigationBarTitleText": "",
-				"enablePullDownRefresh": false
-			}
-		}, {
-			"path": "pages/specific/vxHome/vxHome",
-			"style": {
-				"navigationBarTitleText": "万像风险管理系统",
-				"enablePullDownRefresh": true
-			}
-		}, {
-			"path": "pages/public/toBrowser/toBrowser",
-			"style": {
-				"navigationBarTitleText": "",
-				"enablePullDownRefresh": false
-			}
-		}, {
-			"path": "pages/public/pdf/pdf",
-			"style": {
-				"navigationBarTitleText": "",
-				"enablePullDownRefresh": false
-			}
+  "pages": [{
+      "path": "pages/public/accountExec/accountExec",
+      "style": {
+        "navigationBarTitleText": "微信登录",
+        "navigationBarBackgroundColor": "#0055ff"
+      }
+    },
+    {
+      "path": "pages/public/home/home",
+      "style": {
+        "navigationBarTitleText": "菜单",
+        "navigationBarBackgroundColor": "#0055ff"
+      }
+    },
 
-		}
-	],
-	"easycom": {
-		"^u-(.*)": "@/uview-ui/components/u-$1/u-$1.vue"
-	},
-	"globalStyle": {
-		"navigationBarTextStyle": "white",
-		"navigationBarTitleText": "",
-		"navigationBarBackgroundColor": "#1abc9c",
-		"backgroundColor": "#F8F8F8"
-	}
+    {
+      "path": "pages/public/login/forget",
+      "style": {
+        "navigationBarTitleText": "忘记密码",
+        "navigationBarBackgroundColor": "#0bc99d"
+      }
+    },
+    {
+      "path": "pages/public/login/register",
+      "style": {
+        "navigationBarTitleText": "注册",
+        "navigationBarBackgroundColor": "#0bc99d"
+      }
+    }, {
+      "path": "pages/public/list/list",
+      "style": {}
+    }, {
+      "path": "pages/public/formPage/formPage",
+      "style": {}
+    }, {
+      "path": "pages/public/add/add",
+      "style": {}
+    },
+    {
+      "path": "pages/specific/added/added",
+      "style": {}
+    }, {
+      "path": "pages/public/index/index",
+      "style": {
+        "navigationBarTitleText": "",
+        "navigationBarBackgroundColor": "#0bc99d"
+      }
+    },
+    {
+      "path": "pages/public/proc/procList/procList",
+      "style": {}
+    }, {
+      "path": "pages/public/proc/procDetail/procDetail",
+      "style": {}
+    }, {
+      "path": "pages/public/proc/apply/apply",
+      "style": {}
+    }, {
+      "path": "pages/public/proc/procStepDetail/procStepDetail",
+      "style": {}
+    }, {
+      "path": "pages/public/proc/recordDetail/recordDetail",
+      "style": {}
+    }, {
+      "path": "pages/public/homePage/homePage",
+      "style": {}
+    },
+    {
+      "path": "pages/public/demo/demo",
+      "style": {}
+    }, {
+      "path": "pages/specific/testPage/testPage",
+      "style": {
+        "navigationBarTitleText": "",
+        "enablePullDownRefresh": false
+      }
+    }, {
+      "path": "pages/public/user/user",
+      "style": {
+        "navigationBarTitleText": "",
+        "enablePullDownRefresh": false
+      }
+    }, {
+      "path": "pages/specific/vxHome/vxHome",
+      "style": {
+        "navigationBarTitleText": "企业OA办公系统",
+        "enablePullDownRefresh": true
+      }
+    }, {
+      "path": "pages/public/toBrowser/toBrowser",
+      "style": {
+        "navigationBarTitleText": "",
+        "enablePullDownRefresh": false
+      }
+    }, {
+      "path": "pages/public/pdf/pdf",
+      "style": {
+        "navigationBarTitleText": "",
+        "enablePullDownRefresh": false
+      }
+
+    }
+  ],
+  "easycom": {
+    "^u-(.*)": "@/uview-ui/components/u-$1/u-$1.vue"
+  },
+  "globalStyle": {
+    "navigationBarTextStyle": "white",
+    "navigationBarTitleText": "",
+    "navigationBarBackgroundColor": "#1abc9c",
+    "backgroundColor": "#F8F8F8"
+  }
 }
