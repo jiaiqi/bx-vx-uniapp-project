@@ -374,6 +374,21 @@
 				}
 			},
 			deRowButDisplay: function(item, button) {
+        debugger
+        if(button.disp_exps){
+          let isShow = false
+          try {
+            if (button.disp_exps) {
+              let testFun = new Function('e', `let data = e ; return (${button.disp_exps})`)
+              isShow = testFun(item)
+            }
+          } catch (e) {
+            //TODO handle the exception
+            console.log('err:', e)
+            console.log('disp_exps:', button.disp_exps)
+          }
+          return isShow
+        }
 				if (item && button.hasOwnProperty('isShow') && button['isShow'].length > 0) {
 					let isShow = [];
 					for (let key in button['isShow']) {
@@ -654,12 +669,13 @@
 				.title-tip {
 					font-size: 28upx;
 					display: flex;
+          
 					align-items: center;
 					overflow: hidden;
 					word-break: break-all;
 					display: -webkit-box;
 					-webkit-line-clamp: 3; /**指定行数*/
-					-webkit-box-orient: vertical;
+					// -webkit-box-orient: vertical;
 					.value.label{
 						font-weight: bold;
 					}

@@ -5,9 +5,22 @@
   // }
   export default {
     onLaunch: function(options) {
+      debugger
       if (options?.query?.bx_auth_ticket) {
         uni.setStorageSync('bx_auth_ticket', options?.query?.bx_auth_ticket);
         uni.setStorageSync('isLogin', true);
+        if (options?.query?.login_user_info) {
+          try {
+            let str = decodeURIComponent(options.query.login_user_info)
+            let login_user_info = JSON.parse(str)
+            if (login_user_info?.user_no) {
+              uni.setStorageSync('login_user_info', login_user_info)
+            }
+          } catch (err) {
+            console.log(err)
+            debugger
+          }
+        }
       }
       this.judgeClientEnviroment()
       uni.setStorageSync("isThirdParty", this.$api.isThirdParty)
@@ -41,8 +54,8 @@
           name: 'red',
           color: '#e54d42'
         },
-    
-   {
+
+        {
           title: '桔橙',
           name: 'orange',
           color: '#f37b1d'
@@ -77,8 +90,8 @@
           name: 'purple',
           color: '#6739b6'
         },
-    
-   {
+
+        {
           title: '木槿',
           name: 'mauve',
           color: '#9c26b0'
@@ -302,8 +315,8 @@
     // width: 100%;
     display: flex;
     flex-wrap: wrap;
-  
-  .checkbox {
+
+    .checkbox {
       // width: 30%;
       padding: 10upx;
 

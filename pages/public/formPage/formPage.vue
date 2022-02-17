@@ -1,6 +1,6 @@
 <template>
 	<view class="form-page">
-		<cu-custom bgColor="bg-blue" :isBack="true">
+		<cu-custom bgColor="bg-blue" :isBack="false">
 			<!-- <block slot="backText">返回</block> -->
 			<block slot="content" v-if="colsV2Data && colsV2Data.service_view_name">{{ colsV2Data.service_view_name }}</block>
 		</cu-custom>

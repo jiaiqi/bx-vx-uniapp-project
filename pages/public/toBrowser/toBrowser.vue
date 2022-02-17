@@ -14,7 +14,7 @@
 </template>
 
 <script>
-	import backImg from '../../../static/img/errHelp.jpg'
+	import backImg from '../../../static/errHelp.jpg'
 	export default {
 		data() {
 			return {

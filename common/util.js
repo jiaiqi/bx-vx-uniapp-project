@@ -180,7 +180,7 @@ export default {
 
               // 第一次拿到，缓存
               let pageconfig = Vue.prototype.getPageConfig(response.data.data, pageType)
-              self.$store.commit('setSrvCol', pageconfig)
+              // self.$store.commit('setSrvCol', pageconfig)
               return pageconfig
             }
           } else {
@@ -267,9 +267,23 @@ export default {
         fieldInfo.label = item.label
         fieldInfo.seq = item.seq
         if (item.init_expr) {
-          item.init_expr = item.init_expr.replace(/\'/g, '')
-          fieldInfo.defaultValue = item.init_expr
-          fieldInfo.initValue = item.init_expr
+          if (item.init_expr[0] == "'" && item.init_expr[item.init_expr.length - 1] === "'") {
+            item.init_expr = item.init_expr.replace(/\'/g, '')
+            fieldInfo.defaultValue = item.init_expr
+            fieldInfo.initValue = item.init_expr
+          } else {
+            try{
+              let loginUserInfo = uni.getStorageSync('login_user_info');
+              if(loginUserInfo?.user_no){
+                top.user = loginUserInfo
+              }
+              fieldInfo.defaultValue = eval(item.init_expr)
+              fieldInfo.initValue = eval(item.init_expr)
+            }catch(e){
+              //TODO handle the exception
+              console.log(e)
+            }
+          }
         }
         fieldInfo.option_list_v2 = item.option_list_v2
         fieldInfo.x_if = item.x_if

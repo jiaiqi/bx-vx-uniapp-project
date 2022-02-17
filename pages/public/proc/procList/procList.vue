@@ -1,9 +1,11 @@
 <template>
   <view>
-    <cu-custom bgColor="bg-blue" :isBack="true">
+    <cu-custom bgColor="bg-blue" :isBack="false">
       <block slot="backText">返回</block>
       <block slot="content" v-if="listConfig.listConfig">{{ listConfig.listConfig.service_view_name }}</block>
-      <block slot="right"><text class="cuIcon-add" style="font-size: 40upx;margin-right: 20upx;" @click="toApply"></text></block>
+      <block slot="right"><view class="" style="width: 100%;text-align: right;">
+        <text class="cuIcon-add" style="font-size: 40upx;margin-right: 20upx;" @click="toApply"></text>
+      </view></block>
     </cu-custom>
     <bx-list
       v-if="listConfig.serviceName"
@@ -76,6 +78,11 @@ export default {
       }
     };
   },
+  computed: {
+    showApply() {
+      return this.publicButton.find(item=>item.button_type==='apply') 
+    }
+  },
   methods: {
     hideModal() {
       this.showModal = false;
@@ -83,6 +90,14 @@ export default {
     toApply() {
       // this.$refs.popup.open()
       // this.showModal = true
+      if(!this.showApply){
+        uni.showModal({
+          title:'提示',
+          content:'当前流程不支持在小程序端申请，请前往PC端操作',
+          showCancel:false
+        })
+        return
+      }
       uni.navigateTo({
         url: '../apply/apply?serviceName=' + this.listConfig.addService
       });

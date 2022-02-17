@@ -2,7 +2,7 @@
 	<view class="bg-white" style="width:100%;padding:20upx 6upx" v-if="allFieldRun.length > 0">
 		<view v-if="title" class="form-title">{{title}}</view>
 		<view v-for="(item, index) in allFieldRun" :key="index">
-			<formItem v-if="evalXIf(item)" v-show="referencedColName !== item.column" :procData="procData" :field="item"
+			<formItem v-show="evalXIf(item)&&referencedColName !== item.column" :procData="procData" :field="item"
 				:referencedColName="referencedColName" :pageFormType="updateType" :showTextarea="showTextarea"
 				:appno="appno"
 				:fieldsModel="fieldModel" :service="service" :detailFiledData="detailFiledData" ref="fitem"
@@ -427,6 +427,7 @@
 								});
 							}
 						}
+            
 						if (itemData.hasOwnProperty('isShowExp') && item.hasOwnProperty(itemData.column)) {
 							itemData['showExp'] = this.evalInTo(itemData, item);
 							itemData['display'] =
@@ -436,10 +437,12 @@
 						} else {
 							itemData['showExp'] = itemData['showExp'] || true;
 						}
+            
 						if (itemData.formulaShow) {
 							itemData['showExp'] = evaluatorTo(item, itemData.formulaShow);
 							itemData['display'] = itemData['showExp'];
 						}
+            
 						this.specialCol.forEach(special => {
 							if (special.column === itemData.column) {
 								special.value ? (this.fieldModel[itemData.column] = special.value) : '';

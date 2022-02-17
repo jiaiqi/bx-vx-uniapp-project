@@ -1,7 +1,6 @@
 <template>
   <view>
     <cu-custom bgColor="bg-blue" :isBack="true" v-if="showNavBack">
-      <!-- <block slot="backText">返回</block> -->
       <block slot="content">{{ listConfig.service_view_name }}</block>
     </cu-custom>
     <view class="search-bar" v-if="showSearchBar">
@@ -332,6 +331,7 @@
         console.log('listChange:', e);
       },
       clickItem(e) {
+        return
         if (this.pageType === 'proc') {
           uni.navigateTo({
             url: '/pages/public/proc/procDetail/procDetail?proc_instance_no=' + e.proc_instance_no

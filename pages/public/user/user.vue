@@ -9,12 +9,11 @@
         <view class="cu-list menu-avatar comment solids-top">
           <view class="cu-item">
             <view class="cu-avatar round bg-white">
-
               <text class="lg text-gray cuIcon-profile"></text>
             </view>
             <view class="content">
               <view class="text-black">
-                姓名/工号：{{userInfo && userInfo.person_name ? userInfo.person_name : '-'}}/{{userInfo && userInfo.user_code ? userInfo.user_code : '-'}}
+                姓名/工号：{{userInfo && userInfo.person_name || '-'}}/{{userInfo && userInfo.user_code|| '-'}}
               </view>
               <view class="text-black text-content text-df">
                 入职时间：{{userInfo && userInfo.entry_date ? userInfo.entry_date : '-'}}
@@ -43,16 +42,14 @@
                   <text>{{userInfo && userInfo.entry_date ? userInfo.entry_date : '-'}}</text> 【我入职了】
                 </view>
               </view>
-
             </view>
           </view>
-
         </view>
       </view>
     </view>
     <view class="padding flex flex-direction">
       <button class="cu-btn bg-red margin-tb-sm lg" @click="goToLogin">切换账号</button>
-      <button v-if="isBind" class="cu-btn bg-red margin-tb-sm lg" @click="unBindWxUser">解绑</button>
+      <!-- <button v-if="isBind" class="cu-btn bg-red margin-tb-sm lg" @click="unBindWxUser">解绑</button> -->
     </view>
 
   </view>
@@ -147,7 +144,6 @@
             }
           }
         });
-
       },
       getUserInfo() {
         let app = uni.getStorageSync('activeApp') || 'vxhr'

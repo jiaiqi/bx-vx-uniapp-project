@@ -1,6 +1,6 @@
 <template>
   <view>
-<!--    <view class="bg-img flex align-center" :style="{backgroundImage:`url(${login})`,height:'296upx'}">
+    <!--    <view class="bg-img flex align-center" :style="{backgroundImage:`url(${login})`,height:'296upx'}">
     </view> -->
     <userProc :title="title" ref="toDoHome" :showAllMenu="showAllMenu" :onlyShowTip="onlyShowTip"></userProc>
   </view>
@@ -16,6 +16,7 @@
         title: "特米科技",
         showAllMenu: false,
         onlyShowTip: false,
+        userInfo: null
       };
     },
     components: {
@@ -38,8 +39,8 @@
       }
     },
     onShow() {
-      if(this.$refs.hasOwnProperty('toDoHome') && this.$refs.toDoHome.hasOwnProperty('getApps')){
-      	this.$refs.toDoHome.getApps()
+      if (this.$refs.hasOwnProperty('toDoHome') && this.$refs.toDoHome.hasOwnProperty('getApps')) {
+        this.$refs.toDoHome.getApps()
       }
     }
   }
