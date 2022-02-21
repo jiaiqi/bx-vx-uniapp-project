@@ -5,7 +5,6 @@
   // }
   export default {
     onLaunch: function(options) {
-      debugger
       if (options?.query?.bx_auth_ticket) {
         uni.setStorageSync('bx_auth_ticket', options?.query?.bx_auth_ticket);
         uni.setStorageSync('isLogin', true);
@@ -18,8 +17,9 @@
             }
           } catch (err) {
             console.log(err)
-            debugger
           }
+        }else{
+          this.getLoginUserInfo()
         }
       }
       this.judgeClientEnviroment()
@@ -134,6 +134,23 @@
         uni.setStorageSync('activeApp', this.$api.appName)
       }
       console.log('App Show')
+    },
+    methods: {
+      getLoginUserInfo() {
+        let req = {
+          "serviceName": "srvsso_login_user_info_select",
+          "colNames": [
+            "*"
+          ]
+        }
+        let url = this.$api.serverURL + `/sso/select/srvsso_login_user_info_select`
+        this.$http.post(url,req).then(res=>{
+          if(res.data.state==='SUCCESS'&&Array.isArray(res.data.data)&&res.data.data.length>0){
+            let login_user_info = res.data.data[0]
+            uni.setStorageSync('login_user_info',login_user_info)
+          }
+        })
+      }
     },
     onHide: function() {
       console.log('App Hide')
