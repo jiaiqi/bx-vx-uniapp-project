@@ -1,4 +1,5 @@
 import bus from '@/common/bus.js'
+import dayjs from 'dayjs'
 var jweixin = require('jweixin-module')
 export default {
   install(Vue, options) {
@@ -272,14 +273,24 @@ export default {
             fieldInfo.defaultValue = item.init_expr
             fieldInfo.initValue = item.init_expr
           } else {
-            try{
+            try {
               let loginUserInfo = uni.getStorageSync('login_user_info');
-              if(loginUserInfo?.user_no){
+
+              if (loginUserInfo?.user_no) {
                 top.user = loginUserInfo
               }
-              fieldInfo.defaultValue = eval(item.init_expr)
-              fieldInfo.initValue = eval(item.init_expr)
-            }catch(e){
+              let val = eval(item.init_expr)
+              if(item.init_expr==='0.00'){
+                val = '0.00'
+              }
+              if (item.col_type === 'Date') {
+                val = dayjs(val).format("YYYY-MM-DD")
+              } else if (item.col_type === 'DateTime') {
+                val = dayjs(val).format("YYYY-MM-DD HH:mm:ss")
+              }
+              fieldInfo.defaultValue = val
+              fieldInfo.initValue = val
+            } catch (e) {
               //TODO handle the exception
               console.log(e)
             }

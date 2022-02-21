@@ -33,7 +33,7 @@
               <!-- <view class="cu-time">昨天</view> -->
               <view class="cu-item cur cuIcon-noticefill" v-if="userInfo && userInfo.positive_confirm_date ">
                 <view class="content bg-green shadow-blur">
-                  <text>{{ userInfo.positive_confirm_date ||: '-'}}</text>
+                  <text>{{ userInfo.positive_confirm_date || '-'}}</text>
                   【我转正了】
                 </view>
               </view>
