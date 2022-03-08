@@ -132,7 +132,7 @@
             if (item.column === 'activity_no') {
               item['disabled'] = true;
             }
-            if (item['in_' + type] === 1) {
+            if (item['in_' + type] === 1 || item['in_' + type] === 2 ) {
               return item;
             }
           });

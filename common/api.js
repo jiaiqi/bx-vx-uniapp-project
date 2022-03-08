@@ -3,7 +3,7 @@
 
 let env = 'prod'
 
-env = 'test'
+// env = 'test'
 
 
 let conf = {

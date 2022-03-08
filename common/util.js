@@ -233,14 +233,14 @@ export default {
         case "add":
           cols = cols.filter((item, index) => {
             // if (item.in_add !== 0) {
-            if (item.in_add === 1) {
+            if (item.in_add === 1 || item.in_add === 2) {
               return item
             }
           })
           break;
         case "update":
           cols = cols.filter((item, index) => {
-            if (item.in_update === 1) {
+            if (item.in_update === 1 || item.in_update === 2) {
               return item
             }
           })
@@ -248,7 +248,7 @@ export default {
         case "detail":
           cols = cols.filter((item, index) => {
             // if (item.in_detail !== 0) {
-            if (item.in_detail === 1) {
+            if (item.in_detail === 1 || item.in_detail === 2) {
               return item
             }
           })
@@ -280,7 +280,7 @@ export default {
                 top.user = loginUserInfo
               }
               let val = eval(item.init_expr)
-              if(item.init_expr==='0.00'){
+              if (item.init_expr === '0.00') {
                 val = '0.00'
               }
               if (item.col_type === 'Date') {
@@ -305,8 +305,12 @@ export default {
         if (item.col_type === "String" || item.col_type === "TelNo" || item.col_type ===
           'BankAccountNo' || item.col_type === "Email") {
           fieldInfo.type = "input"
-        } else if (item.col_type === "DateTime" || item.col_type === "Date") {
+        } else if (item.col_type === "Date") {
           fieldInfo.type = "date"
+        } else if (item.col_type === "DateTime") {
+          fieldInfo.type = "dateTime"
+        } else if (item.col_type === "Time") {
+          fieldInfo.type = "time"
         } else if (item.col_type === "FileList") {
           fieldInfo.type = "file"
           fieldInfo.srvInfo = {

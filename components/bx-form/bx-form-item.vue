@@ -141,18 +141,19 @@
           <input @blur="onInputBlur" @input="onInputChange" v-model="fieldData.value" disabled class="date-input"
             @click.stop="isDisabled ? false : toggleTab(fieldData.type)" :placeholder="'请选择' + fieldData.label"
             :class="!valid.valid ? 'valid_error' : ''" style="width: 100%;" name="input" />
-          <text class="input-icon cuIcon-calendar" style="position: absolute;top:10upx;right: 20upx;color: #0bc99d;"
+          <text class="input-icon cuIcon-calendar" style="position: absolute;top:10upx;right: 20upx;color: #0081ff;"
             @click.stop="isDisabled ? false : toggleTab(fieldData.type)"></text>
 
           <w-picker mode="date" startYear="1900" endYear="2030" :current="false" @confirm="onConfirm"
-            :disabledAfter="false" ref="date" themeColor="#f00"></w-picker>
+            :disabledAfter="false" ref="date" themeColor="#0081ff"></w-picker>
           <w-picker mode="date" startYear="1900" endYear="2030" :current="false" @confirm="onConfirm"
-            :disabledAfter="false" ref="Date" themeColor="#f00"></w-picker>
+            :disabledAfter="false" ref="Date" themeColor="#0081ff"></w-picker>
           <w-picker mode="yearMonth" startYear="1900" endYear="2030" :current="false" @confirm="onConfirm"
-            :disabledAfter="false" ref="yearMonth" themeColor="#f00"></w-picker>
+            :disabledAfter="false" ref="yearMonth" themeColor="#0081ff"></w-picker>
           <w-picker mode="dateTime" startYear="1900" endYear="2030" step="1" :current="false" @confirm="onConfirm"
-            ref="dateTime" themeColor="#f00"></w-picker>
-          <w-picker mode="time" :current="false" @confirm="onConfirm" ref="time" step="1"></w-picker>
+            ref="dateTime" themeColor="#0081ff"></w-picker>
+          <w-picker mode="time" :current="false" @confirm="onConfirm" ref="time" step="1" themeColor="#0081ff">
+          </w-picker>
         </view>
         <!-- fieldData.type === 'list' 选项列表 -->
         <view v-else-if="fieldData.type === 'list'">
