@@ -88,8 +88,6 @@ export default {
       this.showModal = false;
     },
     toApply() {
-      // this.$refs.popup.open()
-      // this.showModal = true
       if(!this.showApply){
         uni.showModal({
           title:'提示',
@@ -101,17 +99,6 @@ export default {
       uni.navigateTo({
         url: '../apply/apply?serviceName=' + this.listConfig.addService
       });
-    },
-    async applyFlow() {
-      //申请流程
-      let serviceName = this.applyButton.serviceName;
-      let req = [
-        {
-          serviceName: serviceName,
-          data: [{}]
-        }
-      ];
-      let res = await this.onRequest('apply', serviceName, req, 'oa');
     },
     clickItem(e) {
       // console.log(e);
@@ -205,7 +192,7 @@ export default {
       this.listConfig.listConfig = colVs;
       this.applyFormFields = colVs;
       this.publicButton = colVs.gridButton.filter(item => {
-        if (item.permission === true) {
+        if (item.permission === true && item.client_type && item.client_type.indexOf('APP')!==-1) {
           switch (item.button_type) {
             case 'add':
               this.showAdd = true;
