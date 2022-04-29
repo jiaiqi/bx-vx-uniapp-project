@@ -1,7 +1,40 @@
 import bus from '@/common/bus.js'
 var jweixin = require('jweixin-module')
+import store from '@/store'
+import api from '@/common/api.js'
+import _http from '@/common/http.js'
+import {
+  mapState
+} from 'vuex'
 export default {
 	install(Vue, options) {
+		// 混入
+		Vue.mixin({
+		  computed: {
+		    ...mapState({
+		      themeConfig: state => state.app.themeConfig,
+		      globalTextFontSize: state => state.app['globalTextFontSize'],
+		      globalLabelFontSize: state => state.app.globalLabelFontSize,
+		      isAttention: state => state.app.subscsribeStatus, //是否关注公众号
+		      userInfo: state => state.user.userInfo,
+		      storeInfo: state => state.app.storeInfo,
+		      vcart: state => state.order.cartInfo,
+		      vstoreUser: state => state.user.storeUserInfo,
+		      vloginUser: state => state.user.loginUserInfo,
+		      scene: state => state.app.scene,
+		      hasNotRegInfo: state => state.app.hasNotRegInfo, //授权访问用户信息
+		      isLogin: state => state.app.isLogin,
+		      vvipCard: state => state.user.vipCard, //用户会员卡信息（充值卡）
+		      curStoreNo: state => state.app.curStoreNo //当前店铺编号
+		    }),
+		    $api() {
+		      return api
+		    },
+		    hasVipCard() {
+		      return !!this.vvipCard?.card_no
+		    }
+		  },
+		})
 		Vue.prototype.$bus = bus
 		Vue.prototype.$wx = jweixin
 		Vue.prototype.pageTitle = '加载中…' // 可以自定义变量
@@ -17,6 +50,30 @@ export default {
 		/**
 		 *@param {Array} loginInfoList 要存储的登录信息 [{key:'',value:''}]
 		 */
+		 Vue.prototype.getAddressCoordinate = async function(){  
+			 let url =  this.$api.serverURL + "/wx/select/srvwx_app_signature_select" 
+			 let req = {
+				"serviceName": "srvwx_app_signature_select",
+				"colNames": [
+					"*"
+				],
+				"condition": [
+					{
+						"colName": "app_no",
+						"ruleType": "eq",
+						"value": this.$api.appNo.wxh5
+					},
+					{
+						"colName": "page_url",
+						"ruleType": "eq",
+						"value": window.location.href.split('#')[0]
+						// "value": encodeURIComponent((window.location.href).split('#')[0])
+					}
+				]
+			}
+			 
+			return await this.$http.post(url, req) 
+		} 
 		Vue.prototype.GenNonDuplicateID = function(s, e) {
 			//  let str = Number(Math.floor((Math.random()+Math.floor(Math.random()*9+1))*Math.pow(10,9)) + Date.now()).toString(12)
 			let str = Math.floor((Math.random() + Math.floor(Math.random() * 9 + 1)) * Math.pow(10, 9)).toString(
@@ -119,6 +176,29 @@ export default {
 			return selectRequestObj
 		}
 		/**
+		 * 
+		 */
+		Vue.prototype.colValRequest = async function(config,fields){
+			let url = Vue.prototype.getServiceUrl(config.hasOwnProperty("srvApp") && config.srvApp ? config.srvApp : uni.getStorageSync("activeApp") , config[0].serviceName,"select")
+			let reqs = Vue.prototype.deepClone(config) 
+			let res = {
+				
+			}
+			
+			return new Promise((resolve, reject) => {
+				for(let r of reqs){
+					if(r.hasOwnProperty('srvApp')){
+						delete r.srvApp;
+					}
+					Vue.prototype.onRequest("select", r.serviceName, r, r.srvApp ? r.srvApp : uni.getStorageSync("activeApp")).then((re) =>{
+						res[r.serviceName] = re.data.data
+						resolve(res)
+					})
+				}
+				
+			})
+		}
+		/**
 		 * @param {String} srv - 服务名(serviceName)
 		 * @param {String} srvType 
 		 * @param {String} pageType  // use_type 取值
@@ -126,7 +206,7 @@ export default {
 		 */
 		Vue.prototype.getV2ReqUseType = function() {
 				console.log('getV2ReqUseType')
-			},
+			}
 			Vue.prototype.getServiceV2 = async function(srv, srvType, pageType,
 				app) { // 表单信息 srvType : add | update | list | detail | select
 				// use_type: detail | proclist | list | treelist | detaillist | selectlist | addchildlist | updatechildlist | procdetaillist | add | update     
@@ -232,14 +312,14 @@ export default {
 				case "add":
 					cols = cols.filter((item, index) => {
 						// if (item.in_add !== 0) {
-						if (item.in_add === 1) {
+						if (item.in_add === 1 || item.in_add === 2) {
 							return item
 						}
 					})
 					break;
 				case "update":
 					cols = cols.filter((item, index) => {
-						if (item.in_update === 1) {
+						if (item.in_update === 1 || item.in_update === 2) {
 							return item
 						}
 					})
@@ -268,8 +348,8 @@ export default {
 				fieldInfo.seq = item.seq
 				if (item.init_expr) {
 					item.init_expr = item.init_expr.replace(/\'/g, '')
-					fieldInfo.defaultValue = item.init_expr
-					fieldInfo.initValue = item.init_expr
+					fieldInfo.defaultValue = (item.init_expr == "top.user.user_no"  ? uni.getStorageSync("login_user_info").user_no :  item.init_expr)
+					fieldInfo.initValue = (item.init_expr == "top.user.user_no"  ? uni.getStorageSync("login_user_info").user_no :  item.init_expr)
 				}
 				fieldInfo.option_list_v2 = item.option_list_v2
 				fieldInfo.x_if = item.x_if
@@ -280,9 +360,13 @@ export default {
 				if (item.col_type === "String" || item.col_type === "TelNo" || item.col_type ===
 					'BankAccountNo' || item.col_type === "Email") {
 					fieldInfo.type = "input"
-				} else if (item.col_type === "DateTime" || item.col_type === "Date") {
+				} else if (item.col_type === "Date" ) {
 					fieldInfo.type = "date"
-				} else if (item.col_type === "FileList") {
+				} else if(item.col_type === "DateTime"){
+					fieldInfo.type = "dateTime"
+				} else if(item.col_type === "Time"){
+					fieldInfo.type = "time"
+				}else if (item.col_type === "FileList") {
 					fieldInfo.type = "file"
 					fieldInfo.srvInfo = {
 						tableName: item.table_name,
@@ -350,7 +434,16 @@ export default {
 						name: '拍照',
 						type: 'car_no'
 					}]
-				} else {
+				} else if(fieldInfo.col_type == "Dept"){
+					fieldInfo.type = "treeSelector"
+					fieldInfo.option_list_v2 = {
+						serviceName: 'srvauth_dept_select',
+						srv_app: "auth",
+						refed_col: 'dept_no',
+						key_disp_col: 'dept_name',
+						show_as_pair: false,
+					}
+				}else{
 					fieldInfo.type = item.col_type + 'undefined'
 				}
 
@@ -515,7 +608,11 @@ export default {
 
 			}
 			let url = Vue.prototype.getServiceUrl(app || uni.getStorageSync("activeApp"), srv, optionType)
-			return self.$http.post(url, req)
+			return new Promise((resolve, reject) => {
+				
+				resolve(self.$http.post(url, req))
+			})
+			// return self.$http.post(url, req)
 		}
 
 		// -------------------公共方法-------------------------------

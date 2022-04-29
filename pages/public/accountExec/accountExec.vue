@@ -81,26 +81,30 @@
 			if (option.showAllMenu) {
 				this.showAllMenu = true
 			}
+			
+			if (navigator.userAgent.indexOf('iPhone') !== -1) {
+				let linkUrl = window.location + '';
+				uni.setStorageSync('linkUrl', linkUrl);
+			}
 			let self = this;
 			if (uni.getStorageSync('isLogin')) {
 				console.log('已登录，不进行初始化授权', uni.getStorageSync('isLogin'));
-				if (uni.getStorageSync('backUrl') && uni.getStorageSync('backUrl') !== '/') {
-					uni.redirectTo({
-						url: uni.getStorageSync('backUrl')
-					});
-				} else {
-					uni.redirectTo({
-						url: this.$api.homePath
-					});
-				}
+				uni.redirectTo({
+					url: this.$api.homePath
+				});
+				// if (uni.getStorageSync('backUrl') && uni.getStorageSync('backUrl') !== '/') {
+				// 	uni.redirectTo({
+				// 		url: uni.getStorageSync('backUrl')
+				// 	});
+				// } else {
+				// 	uni.redirectTo({
+				// 		url: this.$api.homePath
+				// 	});
+				// }
 			} else {
 				console.log('onLoad 未登录，进行初始化授权', uni.getStorageSync('isLogin'));
 				self.initLogin();
 				if (uni.getStorageSync('isThirdParty')) {}
-			}
-			if (navigator.userAgent.indexOf('iPhone') !== -1) {
-				let linkUrl = window.location + '';
-				uni.setStorageSync('linkUrl', linkUrl);
 			}
 		},
 		methods: {
@@ -138,7 +142,7 @@
 				let that = this;
 				let code = null;
 				// 公众号环境
-				code = this.$route.query.code;
+				code = that.$route.query.code;
 				console.log('code:', code);
 				let isLogin = uni.getStorageSync('isLogin');
 				console.log('是否绑定账号:', isLogin);
@@ -149,7 +153,7 @@
 				// })
 				console.log('是否微信环境', isWeixinClient);
 				if (!isLogin) {
-					if (isWeixinClient) {
+					if (isWeixinClient){
 						//微信环境(小程序或者公众号)
 						if (code || client_env === 'wxmp') {
 							// 已经得到code,进行验证登录
@@ -158,7 +162,7 @@
 						} else if (!code) {
 							//公众号 未授权 -> 获取授权
 							console.log('未发现code,尝试获取重定向链接');
-							that.getAuthorized();
+							that.getAuthorized();  // 进行微信授权签名
 						}
 					} else if (!isWeixinClient) {
 						// 非微信环境(H5或APP)
@@ -200,6 +204,7 @@
 				let burl = uni.getStorageSync('backUrl');
 				this.$http.post(url, req).then(response => {
 					if (response.data.response[0].response.authUrl) {
+						console.log("微信授权地址",response.data.response[0].response.authUrl)
 						window.location.href = response.data.response[0].response.authUrl;
 					} else {
 						uni.showToast({
@@ -374,8 +379,11 @@
 										url = url.substring(url.lastIndexOf('backUrl=') + 8, url.length);
 										// console.log("授权成功，准备返回用户界面url",url)
 									}
+									// uni.reLaunch({
+									// 	url: url
+									// });
 									uni.reLaunch({
-										url: url
+										url: that.$api.homePath
 									});
 								} else {
 									uni.reLaunch({

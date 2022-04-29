@@ -5,6 +5,12 @@
 				"navigationBarTitleText": "微信登录",
 				"navigationBarBackgroundColor": "#0055ff"
 			}
+		},{
+			"path": "pages/specific/vxHome/vxHome",
+			"style": {
+				"navigationBarTitleText": "万像风险管理系统",
+				"enablePullDownRefresh": true
+			}
 		},
 		{
 			"path": "pages/public/home/home",
@@ -13,7 +19,7 @@
 				"navigationBarBackgroundColor": "#0055ff"
 			}
 		},
-		
+
 		{
 			"path": "pages/public/login/forget",
 			"style": {
@@ -36,8 +42,7 @@
 		}, {
 			"path": "pages/public/add/add",
 			"style": {}
-		},
-		{
+		}, {
 			"path": "pages/specific/added/added",
 			"style": {}
 		}, {
@@ -46,8 +51,7 @@
 				"navigationBarTitleText": "百想科技",
 				"navigationBarBackgroundColor": "#0bc99d"
 			}
-		},
-		 {
+		}, {
 			"path": "pages/public/proc/procList/procList",
 			"style": {}
 		}, {
@@ -65,8 +69,7 @@
 		}, {
 			"path": "pages/public/homePage/homePage",
 			"style": {}
-		},
-		{
+		}, {
 			"path": "pages/public/demo/demo",
 			"style": {}
 		}, {
@@ -81,13 +84,7 @@
 				"navigationBarTitleText": "",
 				"enablePullDownRefresh": false
 			}
-		}, {
-			"path": "pages/specific/vxHome/vxHome",
-			"style": {
-				"navigationBarTitleText": "万像风险管理系统",
-				"enablePullDownRefresh": true
-			}
-		}, {
+		},  {
 			"path": "pages/public/toBrowser/toBrowser",
 			"style": {
 				"navigationBarTitleText": "",
@@ -100,8 +97,32 @@
 				"enablePullDownRefresh": false
 			}
 
+		}, {
+			"path": "pages/specific/clockIn/clockIn",
+			"style": {
+				"navigationBarTitleText": "考勤打卡",
+				"enablePullDownRefresh": false
+			}
 		}
-	],
+        ,{
+            "path" : "pages/specific/checkWork/checkWork",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/specific/checkIndex/checkIndex",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+    ],
 	"easycom": {
 		"^u-(.*)": "@/uview-ui/components/u-$1/u-$1.vue"
 	},

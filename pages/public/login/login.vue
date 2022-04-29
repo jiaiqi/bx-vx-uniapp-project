@@ -77,6 +77,7 @@ export default {
             uni.setStorageSync('expire_time', resData.expire_time); // 过期间隔
             uni.setStorageSync('expire_timestamp', expire_timestamp); // 过期时间
             uni.setStorageSync('login_user_info', resData.login_user_info); //登录信息
+			uni.setStorageSync("user_no", resData.login_user_info.user_no);
             uni.navigateTo({
               url: '../index/index'
             });

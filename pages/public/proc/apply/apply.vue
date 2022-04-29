@@ -6,7 +6,7 @@
       <!-- <block slot="right"><text class="cuIcon-add" style="font-size: 40upx;margin-right: 20upx;" @click="toApply"></text></block> -->
     </cu-custom>
     <view class="form-wrap" v-if="fields.length > 0">
-      <bxform ref="bxForm" :pageType="type" :BxformType="type" :fields="fields"></bxform>
+      <bxform ref="bxForm" :pageType="type" :BxformType="type" :fields="fields" :moreConfig="srvMoreConfig"></bxform>
       <view class="btn-box">
         <button @click="submitData" class="cu-btn bg-blue">提交</button>
       </view>
@@ -26,7 +26,8 @@ export default {
       procBasicConfig: {},
       colsV2Data: {},
       defaultCondition:[],
-	  app:''
+	  app:'',
+	  srvMoreConfig:null
     };
   },
   methods: {
@@ -73,8 +74,8 @@ export default {
     async getBasicCfg() {
       // srvprocess_basic_cfg_select 流程初始化数据查询
       let serviceName = this.serviceName;
-      let req = { serviceName: 'srvprocess_basic_cfg_select', colNames: ['*'], condition: [{ colName: 'service_name', ruleType: 'eq', value: serviceName }] };
-      let res = await this.onRequest('select', 'srvprocess_basic_cfg_select', req,this.app?this.app:'oa');
+      let req = { serviceName: 'srvProcess_basic_cfg_v2_select', colNames: ['*'], condition: [{ colName: 'service_name', ruleType: 'eq', value: serviceName }] };
+      let res = await this.onRequest('select', 'srvProcess_basic_cfg_v2_select', req,this.app?this.app:'oa');
       if (res.data.state === 'SUCCESS') {
         this.procBasicConfig = res.data;
       }
@@ -85,6 +86,9 @@ export default {
       let type = this.type;
       console.log('colsV2Data', colVs);
       let fields = [];
+	  let srvMoreConfig = {}
+	  srvMoreConfig = colVs.more_config
+	  this.srvMoreConfig = srvMoreConfig ? JSON.parse(srvMoreConfig) : null
       switch (type) {
         case 'update':
           fields = this.setFieldsDefaultVal(colVs._fieldInfo, this.activityData);
@@ -119,7 +123,7 @@ export default {
           if (item.column === 'activity_no') {
             item['disabled'] = true;
           }
-          if (item['in_' + type] === 1) {
+          if (item['in_' + type] === 1 || item['in_' + type] === 2 ) {
             return item;
           }
         });

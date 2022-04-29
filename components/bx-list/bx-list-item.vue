@@ -25,7 +25,8 @@
 						<view class="label" v-show="setViewTemp['_showLabel']">
 							{{colNameToLabel(srv_cols,setViewTemp.left)}}：
 						</view>
-						<view class="value">{{ sliceString(itemData[setViewTemp.left],10,null,true) }}</view>
+						<!-- <view class="value">{{ sliceString(itemData[setViewTemp.left],10,null,true) }}</view> -->
+						<view class="value">{{ itemData[setViewTemp.left] }}</view>
 					</view>
 					<view class="content-item" v-if="setViewTemp.right">
 						<view class="label" v-show="setViewTemp['_showLabel']">
@@ -130,25 +131,34 @@
 					</text>{{ itemData[setViewTemp.subTitle] }}</view>
 				</view>
 				<view class="content proc-content" @click="listItemClick">
-					<view class="content-item" v-if="setViewTemp.left">
+					<view class="content-item" v-if="setViewTemp.left"  name="left">
 						<view class="label" v-show="setViewTemp['_showLabel']">
 							{{colNameToLabel(srv_cols,setViewTemp.left)}}：
 						</view>
-						<view class="value">{{ sliceString(itemData[setViewTemp.left],10,null,true) }}</view>
+						<!-- <view class="value">{{ sliceString(itemData[setViewTemp.left],10,null,true) }}</view> -->
+						<view class="value">{{ itemData[setViewTemp.left] }}</view>
 					</view>
-					<view class="content-item" v-if="setViewTemp.right">
+					<view class="content-item" v-if="setViewTemp.right" name="right">
 						<view class="label" v-show="setViewTemp['_showLabel']">
 							{{colNameToLabel(srv_cols,setViewTemp.right)}}：
 						</view>
 						<view class="value">{{ itemData[setViewTemp.right] }}</view>
 					</view>
-					<view class="content-item" v-if="setViewTemp.footer">
+					<view class="content-item" v-if="setViewTemp.footer" name="footer">
 						<view class="label" v-show="setViewTemp['_showLabel']">
 							{{colNameToLabel(srv_cols,setViewTemp.footer)}}：
 						</view>
 						<view class="value">{{ sliceString(itemData[setViewTemp.footer],18,null,true) }}</view>
 					</view>
 				</view>
+				<!-- <view class="content proc-content" @click="listItemClick">
+					<view class="content-item" v-if="setViewTemp.footer" name="footer">
+						<view class="label" v-show="setViewTemp['_showLabel']">
+							{{colNameToLabel(srv_cols,setViewTemp.footer)}}：
+						</view>
+						<view class="value">{{ sliceString(itemData[setViewTemp.footer],18,null,true) }}</view>
+					</view>
+				</view> -->
 				<view class="footer" v-if="rowButton.length > 0">
 					<view class="footer-btn " v-if="showFootBtn">
 						<view v-if="deRowButDisplay(itemData, item) && !detailList" class="cu-btn sm round bg-blue"
@@ -708,8 +718,8 @@
 						}
 
 						.content-item {
-							max-width: 50%;
-							min-width: 45%;
+							// max-width: 50%;
+							min-width: 49%;
 							display: flex;
 							min-height: 50upx;
 							align-items: center;

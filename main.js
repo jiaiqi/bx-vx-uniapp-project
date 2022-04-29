@@ -19,8 +19,21 @@ import Json from './Json' //测试用数据
 import dateUtils from '@/common/date_utils.js'
 import cuCustom from './colorui/components/cu-custom.vue'
 Vue.component('cu-custom', cuCustom)
+
+import vconsole from 'vconsole' // 引入vconsole
+Vue.prototype.$vconsole = new vconsole() // 使用vconsole
+
+
 import uView from "uview-ui";
 Vue.use(uView);
+
+
+
+import clockIn from './pages/specific/clockIn/clockIn.vue'
+Vue.component('clockIn',clockIn)
+
+import checkWork from './pages/specific/checkWork/checkWork.vue'
+Vue.component('checkWork',checkWork)
 // 引入composition-api
 // import VueCompositionAPI from '@vue/composition-api'
 // Vue.use(VueCompositionAPI)

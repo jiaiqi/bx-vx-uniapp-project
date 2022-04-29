@@ -258,6 +258,8 @@ export default {
             this.dates = this.monthDay(y, m);
             this.y = y;
             this.m = m;
+			
+			this.$emit('onchangYearMonth', ''+this.y+ '-' + this.m);
         },
         changeMonth(type){
             if(type=='pre'){
@@ -276,6 +278,7 @@ export default {
                 }
             }
             this.dates = this.monthDay(this.y, this.m);
+			this.$emit('onchangYearMonth', ''+this.y+ '-' + (this.m < 11 ?  "" + 0 + this.m : this.m));
         },
 		changeYear(type){
 			let currYear = null
@@ -285,6 +288,7 @@ export default {
 				currYear = this.y + 1
 			}
 			this.changYearMonth(currYear,this.m)
+			this.$emit('onchangYearMonth', ''+this.y+ '-' + this.m);
 		}
     }
 };

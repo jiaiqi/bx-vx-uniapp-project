@@ -319,6 +319,7 @@
 	import attachment from '@/components/file-upload/file-upload.vue';
 	import bxUploader from '@/components/bx-u-uploader/bx-u-uploader.vue';
 	let _this = null;
+	let self = this
 	export default {
 		name: 'bxFormItem',
 		components: {
@@ -379,7 +380,7 @@
 			}
 		},
 		name: 'formItem',
-		data() {
+		data:()=>{
 			return {
 				bodyTop: '',
 				showOption_img: false, // 是否显示图片描述
@@ -394,16 +395,16 @@
 					columns: '',
 					file_no: ""
 				},
-				fieldModelsData: this.fieldsModel,
+				fieldModelsData:null,
 				reqHeader: null,
-				fieldData: this.field,
+				fieldData:null,
 				valid: {
-					column: this.field.column,
+					column: null,
 					valid: true,
 					msg: '不能为空!'
 				},
-				deleteFileUrl: this.$api.deleteFile,
-				upLoadUrl: this.$api.upload,
+				deleteFileUrl: null,
+				upLoadUrl: null,
 				imagesUrl: [],
 				title: 'Hello',
 				startYear: new Date().getFullYear(),
@@ -422,7 +423,7 @@
 				showTreeSelector: false,
 				showRichText: false,
 				attachmentList: [],
-				uploadFileUrl: this.$api.upload,
+				uploadFileUrl: null,
 				header: '',
 				index: -1,
 				picker: ['网络状况较差，请稍后进行选择'],
@@ -577,6 +578,7 @@
 			}
 		},
 		mounted() {
+			let self = this
 			// console.log('procDataprocDataprocData', this.procData);
 			this.bodyTop = document.body.clientHeight;
 			if (this.fieldData.type === 'poupchange') {
@@ -586,6 +588,7 @@
 				// this.field.condition.forEach()
 			}
 			if (this.fieldData.type === 'treeSelector' && this.fieldData.display !== false) {
+				
 				this.getTreeSelectorData().then(_ => {
 					let fieldData = this.fieldData;
 					if (fieldData.value === '[]') {
@@ -602,7 +605,8 @@
 						}
 					}
 					if (fieldData.type === 'treeSelector') {
-						if (fieldData.col_type !== 'User' && fieldData.col_type !== 'UserList') {
+						if (fieldData.col_type == 'Dept'){
+							console.log("getTreeSelectorData 1",self.treeSelectorShowValue,"-",this.fieldData.valueForDisplay,"-",this.fieldData.value)
 							if (fieldData.colData && fieldData.value) {
 								if (fieldData.option_list_v2.hasOwnProperty('show_as_pair') && fieldData
 									.option_list_v2.show_as_pair) {
@@ -612,21 +616,39 @@
 									this.treeSelectorShowValue =
 										`${fieldData.colData[fieldData.option_list_v2.key_disp_col]?fieldData.colData[fieldData.option_list_v2.key_disp_col]:fieldData.value}`;
 								}
-								this.fieldData.valueForDisplay = this.treeSelectorShowValue || this.fieldData
+								this.fieldData.valueForDisplay = self.treeSelectorShowValue || this.fieldData
 									.valueForDisplay
 							} else if (!fieldData.colData || !fieldData.value) {
 								this.treeSelectorShowValue = this.fieldData.valueForDisplay ? this.fieldData
 									.valueForDisplay : this.fieldData.value
 							}
+							console.log("getTreeSelectorData 2",self.treeSelectorShowValue,"-",this.fieldData.valueForDisplay,"-",this.fieldData.value)
 							this.$emit('on-value-change', this.fieldData);
-						} else {
+						} else if (fieldData.col_type !== 'User' && fieldData.col_type !== 'UserList') {
 							if (fieldData.colData && fieldData.value) {
-								this.treeSelectorShowValue =
-									`${fieldData.colData[fieldData.option_list_v2.key_disp_col]}`;
-								this.fieldData.valueForDisplay = this.treeSelectorShowValue || this.fieldData
+								if (fieldData.option_list_v2.hasOwnProperty('show_as_pair') && fieldData
+									.option_list_v2.show_as_pair) {
+									this.treeSelectorShowValue =
+										`${fieldData.colData[fieldData.option_list_v2.refed_col]}/${fieldData.colData[fieldData.option_list_v2.key_disp_col]}`;
+								} else {
+									this.treeSelectorShowValue =
+										`${fieldData.colData[fieldData.option_list_v2.key_disp_col]?fieldData.colData[fieldData.option_list_v2.key_disp_col]:fieldData.value}`;
+								}
+								this.fieldData.valueForDisplay = self.treeSelectorShowValue || this.fieldData
 									.valueForDisplay
 							} else if (!fieldData.colData || !fieldData.value) {
-								this.treeSelectorShowValue = this.fieldData.valueForDisplay ? this.fieldData
+								this.treeSelectorShowValue = self.fieldData.valueForDisplay ? this.fieldData
+									.valueForDisplay : this.fieldData.value
+							}
+							this.$emit('on-value-change', this.fieldData);
+						}else{
+							if (fieldData.colData && fieldData.value) {
+								self.treeSelectorShowValue =
+									`${fieldData.colData[fieldData.option_list_v2.key_disp_col]}`;
+								this.fieldData.valueForDisplay = self.treeSelectorShowValue || this.fieldData
+									.valueForDisplay
+							} else if (!fieldData.colData || !fieldData.value) {
+								self.treeSelectorShowValue = this.fieldData.valueForDisplay ? this.fieldData
 									.valueForDisplay : this.fieldData.value
 							}
 							this.$emit('on-value-change', this.fieldData);
@@ -637,6 +659,18 @@
 			// console.log('this.fieldData', this.fieldData);
 		},
 		created() {
+			
+			this.fieldModelsData=this.fieldsModel
+			this.fieldData=this.field
+			this.valid={
+				column: this.field.column,
+				valid: true,
+				msg: '不能为空!'
+			}
+			this.deleteFileUrl= this.$api.deleteFile
+			this.upLoadUrl=this.$api.upload
+			this.uploadFileUrl=this.$api.upload
+			
 			if (this.field.value === null) {
 				this.field.value = '';
 			}
@@ -684,6 +718,11 @@
 				this.formData['app_no'] = this.fieldData.srvInfo.appNo;
 			}
 			if (this.fieldData.type === 'treeSelector') {
+				let _colDatas = this.fieldData._colDatas
+				
+				if(_colDatas.init_expr && _colDatas.option_list_v2){
+					this.getChangePoupInfo(this.fieldData)
+				}
 				this.getTreeSelectorData();
 			}
 			if (this.fieldData.type === 'list') {
@@ -774,8 +813,16 @@
 						}
 					];
 					isOk = true;
+				}else{
+					condition = [{
+						colName:info.option_list_v2.refed_col,
+						ruleType:"in",
+						value:info.initValue
+					}]
+					// treeSelector 组件初始化值扩展
+					// isOk = true;
 				}
-				let req = {
+				let req = { 
 					serviceName: serviceName,
 					colNames: ['*'],
 					condition: condition
@@ -793,6 +840,16 @@
 						// console.log('--------------', res.data.data);
 					}
 					// console.log('获取选择楼房');
+				}else if(info.type = "treeSelector"){
+					// 扩展 树状默认值 fk 初始化
+					let res = await this.onRequest('select', serviceName, req, info.srv_app);
+					if (res.data.state === 'SUCCESS') {
+						// this.oriPicker = res.data.data;
+						let resData = [];
+						info.colData = res.data.data[0]
+						this.$emit('on-value-blur', info)
+						
+					}
 				}
 			},
 			saveEditorValue() {
@@ -1102,7 +1159,7 @@
 			},
 			getValid: function() {
 				let self = this
-				console.log('getValid', this.fieldData, this.field);
+				// console.log('getValid', this.fieldData, this.field);
 				if (this.fieldData.isRequire && this.fieldData.value) {
 					if (this.fieldData.hasOwnProperty('_validators') && this.fieldData._validators.hasOwnProperty(
 							'isType') && typeof this
@@ -1156,7 +1213,7 @@
 					}
 				}
 				this.valid = this.fieldData.valid
-				console.log('getValid', this.fieldData);
+				// console.log('getValid', this.fieldData);
 				this.$emit('on-value-change', this.fieldData);
 				return this.valid;
 			},
@@ -1367,15 +1424,15 @@
 						.serviceName : '',
 					colNames: ['*'],
 					page: {
-						pageNo: this.treePageInfo.pageNo,
-						rownumber: this.treePageInfo.rownumber
+						pageNo: self.treePageInfo.pageNo,
+						rownumber: self.treePageInfo.rownumber
 					}
 				};
 				let appName = ''; // 处理app no
 				if (self.fieldData.option_list_v2 && self.fieldData.option_list_v2.srv_app) {
 					appName = self.fieldData.option_list_v2.srv_app;
 				} else {
-					appName = this.appno|| uni.getStorageSync('activeApp');
+					appName = self.appno|| uni.getStorageSync('activeApp');
 				}
 				let fieldModelsData = self.deepClone(self.fieldsModel);
 				if (!self.procData.id) {

@@ -81,6 +81,12 @@
 					return {};
 				}
 			},
+			srvMoreConfig:{
+				type:Array,
+				default (){
+					return []
+				}
+			},
 			childDatas: {
 				type: Object
 			},
@@ -102,6 +108,9 @@
 				oldField: [],
 				oldFieldModel: {},
 				specialCol: [],
+				colValChangeRequestCols:[],
+				colValChangeRequest:[],   //请求来源col
+				initValToCols:[],  //请求赋值col
 				more_config: {
 					col_relation: [{
 						watch_col: ['page_end', 'page_start'], //相关字段
@@ -170,6 +179,7 @@
 			};
 		},
 		created() {
+			this.initColValRequest()
 			if (this.fieldModel.length > 0) {
 				this.fieldModel = this.fieldModel.map(item => {
 					if (!item.value && item.defaultValue) {
@@ -202,9 +212,136 @@
 				let BxformType = this.BxformType
 				return BxformType.indexOf('add') !== -1 ? 'add' : BxformType.indexOf('update') !== -1 ? 'update' :
 					BxformType.indexOf('detail') !== -1 ? 'detail' : 'detail'
+			},
+			"colValChangeRequestColsRun":{
+				get:function(){
+					let reqs = this.deepClone( this.moreConfig)
+					let cols = this.colValChangeRequestCols
+					let fieldModel = this.fieldModel
+					for(let r of reqs){
+						let cond = r.condition
+						for(let c of cond){
+							for(let col of cols){
+								if(col == c["colName"]){
+									c.value = fieldModel[col]
+								}
+							}
+						}
+					}
+					
+					return reqs
+				},
+				set:function(v){
+					let req = this.colValChangeRequest
+					for(let key of req){
+						for(let cKey of key.condition){
+							if( v.column == cKey.colName){
+								cKey.value = v.value
+							}
+						}
+					}
+				}
 			}
 		},
 		methods: {
+			initColValRequest(){
+				let self = this
+				let conditionCol  = self.colValChangeRequestCols
+				let initValToCols = self.initValToCols
+				let moreConfig = null
+				if(self.moreConfig && self.moreConfig.hasOwnProperty("colValRequest") && self.moreConfig.colValRequest){
+					moreConfig = self.moreConfig.colValRequest
+					for(let key of moreConfig){
+						for(let ckey of key.condition){
+							if(conditionCol.indexOf(ckey.colName) == -1){
+								conditionCol.push(ckey.colName)
+							}
+						}
+						for(let c of key.colNames){
+							if(initValToCols.indexOf(c) == -1){
+								initValToCols.push(c)
+							}
+						}
+						
+					}
+					// this.colValRequest(moreConfig.colValRequest)
+				}
+			},
+			getColValRequests(){
+				let reqs = this.deepClone( this.moreConfig.colValRequest)
+				let cols = this.colValChangeRequestCols
+				let fieldModel = this.fieldModel
+				let initReqs = []
+				let fields = this.allField
+				let valids = []
+				// this.$refs.fitem[index].getValid()
+				for(let r of reqs){
+					// let req = {}
+					// req.serviceName = r.serviceName
+					// req.condition = r.condition
+					// req.colNames = r.colNames
+					let cond = r.condition
+					for(let col of cols){
+						for(let f in fields){
+							let valid = this.$refs.fitem[f].getValid()
+							if(col == fields[f].column  && valid.valid){
+								valids.push(valid)
+								
+									console.log("valids === ;",f,valids,col)
+							}
+						}
+					}
+					for(let c of cond){
+						for(let col of cols){
+							if(col == c["colName"]){
+								c.value = fieldModel[col]
+							}
+						}
+					}
+				}
+				// console.log("valids === ;",cols,valids)
+					console.log("valids === 2;",cols.length,valids.length)
+				if(cols.length == valids.length){
+					this.colValRequest(reqs).then((res) =>{
+						console.log(res)
+						// let datas = res.data[0]
+						if(res){
+							this.setColValRequestsVal(res) 
+						}else{
+							console.log('colValRequest 发生异常',res)
+						}
+						
+						console.log("getColValRequests",reqs,res)
+					})
+				}
+				
+				
+			},
+			setColValRequestsVal(e){
+				let self = this
+				let res = e
+				let initValToCols = self.initValToCols
+				// let 
+				let moreConfig = self.moreConfig.colValRequest
+				console.log("setColValRequestsVal",res,moreConfig)
+				for(let k of moreConfig){
+					for(let r in res){
+						if(k.serviceName == r){
+							let data = res[r][0]
+							console.log("r",data)
+							this.allField.forEach((field, index) => {
+								initValToCols.forEach(item => {
+									if (field.column == item) {
+										field.value = data[item];
+										this.$set(this.allField, index, field);
+									}
+								});
+							});
+						}
+					}
+				}
+				
+			},
 			evalXIf(e) {
 				let row = this.fieldModel
 				if (e.x_if) {
@@ -494,6 +631,11 @@
 								item.value = eval("var fun=" + item.redundant.func + "(row,self); fun")
 							}
 						}
+					}else{
+						if ((e.col_type === 'fk' || e.bx_col_type === 'fk') && e.colData && typeof e.colData ===
+							'object' && Array.isArray(e.colData) !== true && Object.keys(e.colData).length > 0) {
+								
+						}
 					}
 					this.fieldModel[item.column] = item.value;
 				});
@@ -513,10 +655,15 @@
 				const self = this;
 				if (e.type === 'number' || e.type === 'digit') {
 					this.fieldModel[e.column] = Number(e.value);
+					// this.$set(this.fieldModel,e.column,Number(e.value))  // 触发深度更新
 				} else {
 					this.fieldModel[e.column] = e.value;
+					// this.$set(this.fieldModel,e.column,e.value)
 				}
-				e.value = this.fieldModel[e.column];
+				
+				
+				
+				this.fieldModel[e.column];e.value = this.fieldModel[e.column];
 				const fieldModel = this.deepClone(this.fieldModel);
 				this.allField = this.allField.map((item, index) => {
 					item.display = item.isShowExp && item.isShowExp.length > 0 ? this.colItemShowExps(item, this
@@ -530,7 +677,7 @@
 					}
 					return item;
 				});
-
+				
 				if (Array.isArray(this.more_config.col_relation) && this.more_config.col_relation.length > 0) {
 					this.more_config.col_relation.forEach(col_relation => {
 						// if (col_relation.watch_col.includes(e.column)) {
@@ -572,13 +719,19 @@
 						}
 					});
 				}
+				
+				
 				this.handleRedundant(e)
 
 				this.$emit('value-blur', e, this.fieldModel);
 			},
 			onValBlur(e) {
-				console.log('e', e, this.fieldModel, this.fieldModel[e.column]);
+				// console.log('e', e, this.fieldModel, this.fieldModel[e.column]);
 				this.fieldModel[e.column] = e.value;
+				// 通过表单值更新出发 col绑定的动态请求
+				if(this.colValChangeRequestCols.indexOf(e.column) !== -1){
+					this.getColValRequests()
+				}
 				this.$emit('value-blur', e, this.fieldModel);
 			},
 			getDetailfieldModel() {
@@ -687,7 +840,9 @@
 			},
 			fieldModel: {
 				deep: true,
-				handler(newVal, oldVal) {}
+				handler(newVal, oldVal) {
+					
+				}
 			}
 		}
 	};
